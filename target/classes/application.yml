@@ -1,0 +1,22 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    log-startup-info: true
+  autoconfigure:
+    exclude:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+server:
+  port: 15550
+
+camel:
+  springboot:
+    main-run-controller: true
+
+fhirVersion: "R4"
+
+security:
+  username: "admin"
+  password: "admin"
