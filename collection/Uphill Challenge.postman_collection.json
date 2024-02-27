@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "5e363eab-27ae-4623-99ff-1c8f9be19026",
+		"name": "Uphill Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21366452",
+		"_collection_link": "https://blue-space-404012.postman.co/workspace/Team-Workspace~5635bafa-692a-48b9-86e2-5598cad1f3a3/collection/21366452-5e363eab-27ae-4623-99ff-1c8f9be19026?action=share&source=collection_link&creator=21366452"
+	},
+	"item": [
+		{
+			"name": "GET DOC",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:15550/camel/api-doc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15550",
+					"path": [
+						"camel",
+						"api-doc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Message",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Encounter\",\r\n  \"id\": \"example-encounter\",\r\n  \"identifier\": [\r\n    {\r\n      \"system\": \"urn:uh-encounter-id\",\r\n      \"value\": \"XXX\"\r\n    }\r\n  ],\r\n  \"status\": \"in-progress\",\r\n  \"class\": {\r\n    \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ActCode\",\r\n    \"code\": \"IMP\"\r\n  },\r\n  \"serviceType\": [\r\n    {\r\n      \"coding\": [\r\n        {\r\n          \"system\": \"http://hl7.org/fhir/ValueSet/service-type\",\r\n          \"code\": \"inpatient\",\r\n          \"display\": \"Inpatient\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"type\": [\r\n    {\r\n      \"coding\": [\r\n        {\r\n          \"system\": \"http://hl7.org/fhir/v3/ActCode\",\r\n          \"code\": \"AMB\",\r\n          \"display\": \"ambulatory\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"subject\": {\r\n    \"reference\": \"Patient/7\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:15550/camel/fhir/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15550",
+					"path": [
+						"camel",
+						"fhir",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET EncounterByIdentifierValue",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:15550/camel/fhir/encounter?identifierValue=XXX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15550",
+					"path": [
+						"camel",
+						"fhir",
+						"encounter"
+					],
+					"query": [
+						{
+							"key": "identifierValue",
+							"value": "XXX"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET PatientByIdentifierValue Copy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:15550/camel/fhir/encounter?identifierValue=XXX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15550",
+					"path": [
+						"camel",
+						"fhir",
+						"encounter"
+					],
+					"query": [
+						{
+							"key": "identifierValue",
+							"value": "XXX"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
