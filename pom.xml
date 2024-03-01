@@ -4,13 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.2</version>
     </parent>
-
 
     <groupId>org.example</groupId>
     <artifactId>uphill-challenge</artifactId>
@@ -21,105 +19,86 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <camel.version>4.4.0</camel.version>
+        <spring.version>3.2.2</spring.version>
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.camel.springboot/camel-spring-boot-starter -->
+        <!-- ***** SPRING DEPENDENCIES ***** -->
+        <!-- Configuration for embedded tomcat and servlet container set up (allows to specify the listening port) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Security accesses -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- ***** CAMEL DEPENDENCIES ***** -->
+        <!-- Auto configuration and dependency management of camel + spring  -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-spring-boot-starter</artifactId>
             <version>${camel.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>3.2.2</version>
-        </dependency>
+        <!-- camel rest component auto config -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-rest-starter</artifactId>
             <version>${camel.version}</version>
         </dependency>
+        <!-- camel servlet component auto config -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-servlet-starter</artifactId>
             <version>${camel.version}</version>
-            <!-- use the same version as your Camel core version -->
         </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.2.2</version>
-        </dependency>
+        <!-- camel fhir component auto config -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-fhir-starter</artifactId>
             <version>${camel.version}</version>
-            <!-- use the same version as your Camel core version -->
         </dependency>
+        <!-- camel jackson parse support -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-jackson-starter</artifactId>
             <version>${camel.version}</version>
-            <!-- use the same version as your Camel core version -->
         </dependency>
+        <!-- camel jsonpath support -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-jsonpath-starter</artifactId>
             <version>${camel.version}</version>
-            <!-- use the same version as your Camel core version -->
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+
+        <!-- to reduce boilerplate code -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-        </dependency>
 
+        <!-- camel Open API dependency -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-openapi-java-starter</artifactId>
             <version>${camel.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>3.2.2</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>6.2.2</version>
-        </dependency>
-
     </dependencies>
 
-    <!--<build>
+    <build>
         <plugins>
-            &lt;!&ndash; Used to generate MANIFEST.MF file to run Docker image &ndash;&gt;
+            <!--&lt;!&ndash; Used to generate MANIFEST.MF file to run Docker image &ndash;&gt;-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
--->
 </project>
