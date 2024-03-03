@@ -1,21 +1,25 @@
 package com.uphill.challenge.routes.internal;
 
+import com.uphill.challenge.dto.EResourceType;
 import com.uphill.challenge.dto.EStatus;
 import com.uphill.challenge.dto.ResponseDTO;
+import com.uphill.challenge.utils.SplitUtils;
 import com.uphill.challenge.validator.EncounterValidator;
 import com.uphill.challenge.validator.PatientValidator;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
-import org.hl7.fhir.r4.model.Encounter;
-import org.springframework.beans.factory.annotation.Value;
+import org.hl7.fhir.r4.model.MessageHeader;
 import org.springframework.stereotype.Component;
 
-import static com.uphill.challenge.constants.UphillChallengeConstants.HAPI_URL_CONST;
-import static com.uphill.challenge.constants.UphillChallengeConstants.ID_CONST;
-import static com.uphill.challenge.constants.UphillChallengeConstants.READ_PATIENT_RESOURCE_ENDPOINT;
+import static com.uphill.challenge.constants.UphillChallengeConstants.IDENTIFIER_SYSTEM_HEADER;
+import static com.uphill.challenge.constants.UphillChallengeConstants.ID_HEADER;
+import static com.uphill.challenge.constants.UphillChallengeConstants.READ_RESOURCE_ENDPOINT;
+import static com.uphill.challenge.constants.UphillChallengeConstants.RESOURCE_TYPE_HEADER;
 import static com.uphill.challenge.constants.UphillChallengeConstants.RESPONSE_PROPERTY;
 import static com.uphill.challenge.constants.UphillChallengeConstants.SEARCH_ENCOUNTER_RESOURCE_ENDPOINT;
 import static com.uphill.challenge.constants.UphillChallengeConstants.SEARCH_ENCOUNTER_RESOURCE_ROUTE;
+import static com.uphill.challenge.constants.UphillChallengeConstants.SEARCH_RESOURCE_ENDPOINT;
+import static com.uphill.challenge.constants.UphillChallengeConstants.SPLIT_RESOURCE_ID_METHOD_NAME_CONST;
 import static com.uphill.challenge.constants.UphillChallengeConstants.VALIDATE_ENCOUNTER_RESOURCE_ENDPOINT;
 import static com.uphill.challenge.constants.UphillChallengeConstants.VALIDATE_ENCOUNTER_RESOURCE_ROUTE;
 
@@ -24,12 +28,6 @@ import static com.uphill.challenge.constants.UphillChallengeConstants.VALIDATE_E
  */
 @Component
 public class EncounterRoute extends RouteBuilder {
-
-    /**
-     * The FHIR structure version to use.
-     */
-    @Value("${fhirVersion}")
-    private String fhirVersion;
 
     /**
      * Defines the <class>EncounterRoute</class> routes.
@@ -50,15 +48,36 @@ public class EncounterRoute extends RouteBuilder {
                 // Check resource type
                 .doTry()
                     .unmarshal().fhirJson() // Unmarshal the incoming message
-                    .filter(simple("${body.getClass()} != '" + Encounter.class.getName() + "'"))
-                        .log("Payload is not of type Encounter")
-                        .setBody(exchange-> ResponseDTO.builder().status(EStatus.INVALID_RESOURCE_TYPE).message("Unsupported Resource Type").build())
+                    .filter(simple("${body.getClass()} != '" + MessageHeader.class.getName() + "'"))
+                        .log("Invalid MessageHeader resource")
+                        .setBody(exchange-> ResponseDTO.builder().status(EStatus.INVALID_RESOURCE_TYPE)
+                                .message("Unsupported Resource Type").build())
+                        .marshal().json(JsonLibrary.Jackson)
+                        .stop()
+                    .end()
+                    .filter(simple("${body.focus[0].reference} not contains 'Encounter'"))
+                        .log("Payload focus is not Encounter")
+                        .setBody(exchange-> ResponseDTO.builder().status(EStatus.INVALID_FOCUS_TYPE)
+                                .message("Unsupported Focus Type").build())
                         .marshal().json(JsonLibrary.Jackson)
                         .stop()
                     .end()
                 .endDoTry()
                 .doCatch(Exception.class)
-                    .setBody(exchange-> ResponseDTO.builder().status(EStatus.INVALID_RESOURCE_TYPE).message("Unsupported Resource Type").build())
+                    .setBody(exchange-> ResponseDTO.builder().status(EStatus.INVALID_RESOURCE_TYPE)
+                            .message("Unsupported Resource Type").build())
+                    .marshal().json(JsonLibrary.Jackson)
+                    .stop()
+                .end()
+
+                // Get the encounter resource by ID
+                .setHeader(ID_HEADER).method(
+                        SplitUtils.class,
+                        SPLIT_RESOURCE_ID_METHOD_NAME_CONST + "(${body.focus[0].reference})"
+                )
+                .setHeader(RESOURCE_TYPE_HEADER, simple(EResourceType.ENCOUNTER.getName()))
+                .to(READ_RESOURCE_ENDPOINT)
+                .filter(simple("${body.getClass()} == '" + ResponseDTO.class.getName() + "'"))
                     .marshal().json(JsonLibrary.Jackson)
                     .stop()
                 .end()
@@ -72,8 +91,9 @@ public class EncounterRoute extends RouteBuilder {
                 .end()
 
                 // Get the patient resource by ID
-                .process(exchange -> exchange.getIn().setHeader(ID_CONST, exchange.getIn().getBody(Encounter.class).getSubject().getReferenceElement_().getValue().split("/")[1]))
-                .to(READ_PATIENT_RESOURCE_ENDPOINT)
+                .setHeader(ID_HEADER).method(SplitUtils.class, SPLIT_RESOURCE_ID_METHOD_NAME_CONST + "(${body.subject.reference})")
+                .setHeader(RESOURCE_TYPE_HEADER, simple(EResourceType.PATIENT.getName()))
+                .to(READ_RESOURCE_ENDPOINT)
                 .filter(simple("${body.getClass()} == '" + ResponseDTO.class.getName() + "'"))
                     .marshal().json(JsonLibrary.Jackson)
                     .stop()
@@ -98,11 +118,9 @@ public class EncounterRoute extends RouteBuilder {
     private void searchEncounterResourceRoute() {
         from(SEARCH_ENCOUNTER_RESOURCE_ENDPOINT)
                 .routeId(SEARCH_ENCOUNTER_RESOURCE_ROUTE)
-                .toD("fhir://search/searchByUrl?" +
-                        "serverUrl=" + HAPI_URL_CONST + "/" + fhirVersion.toLowerCase() + "/fhir" +
-                        "&url=Encounter?identifier=urn:uh-encounter-id|${header.identifierValue}" +
-                        "&fhirVersion=" + fhirVersion)
-                .marshal().fhirJson();
+                .setHeader(RESOURCE_TYPE_HEADER, simple(EResourceType.ENCOUNTER.getName()))
+                .setHeader(IDENTIFIER_SYSTEM_HEADER, constant("urn:uh-encounter-id"))
+                .to(SEARCH_RESOURCE_ENDPOINT);
     }
 
 }

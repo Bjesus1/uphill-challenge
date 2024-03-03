@@ -50,16 +50,16 @@ public class FhirRestRoute extends RouteBuilder {
     private void postFhirMessagesRoute() {
         rest(BASE_REST_ENDPOINT)
                 .post(MESSAGE_REST_ENDPOINT)
-                .description("Validates a Encounter Resource according to the challenge requirements")
+                .description("Validates a MessageHeader Resource with a focus on an Encounter Resource")
                 .consumes(MEDIA_TYPE_FHIR_JSON_CONST)
                 .produces(MediaType.APPLICATION_JSON_VALUE)
                 .outType(ResponseDTO.class)
-                .responseMessage("200", "Valid Encounter Resource").type(IBaseResource.class) //.type(Encounter.class) -> with conflicts on generating openAPI
+                .responseMessage("200", "Valid Encounter Resource").type(IBaseResource.class) //.type(MessageHeader.class) -> with conflicts on generating openAPI
                 .responseMessage("401", "Unauthorized")
                 .responseMessage("404", "Resource Not Found")
                 .responseMessage("500", "Black magic")
                 .param()
-                    .name("body").type(RestParamType.body).description("Encounter Resource (Generic representation)")
+                    .name("body").type(RestParamType.body).description("Bundle Resource (Generic representation)")
                 .endParam()
                 .routeId(POST_FHIR_MESSAGES_ROUTE)
                 .to(VALIDATE_ENCOUNTER_RESOURCE_ENDPOINT);

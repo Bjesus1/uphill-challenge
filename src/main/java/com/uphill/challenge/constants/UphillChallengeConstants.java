@@ -24,7 +24,7 @@ public class UphillChallengeConstants {
     /**
      * Rest endpoint to be use on message validation.
      */
-    public static final String MESSAGE_REST_ENDPOINT = "/message";
+    public static final String MESSAGE_REST_ENDPOINT = "/messageHeader";
 
     /**
      * Rest endpoint to be use on encounter resources.
@@ -52,9 +52,14 @@ public class UphillChallengeConstants {
     public static final String SEARCH_PATIENT_RESOURCE_ENDPOINT = BASE_DIRECT_CONST + "searchPatientResourceEndpoint";
 
     /**
-     * Internal endpoint for the read patient resource.
+     * Internal endpoint for the search of a resource.
      */
-    public static final String READ_PATIENT_RESOURCE_ENDPOINT = BASE_DIRECT_CONST + "readPatientResourceEndpoint";
+    public static final String SEARCH_RESOURCE_ENDPOINT = BASE_DIRECT_CONST + "searchResourceEndpoint";
+
+    /**
+     * Internal endpoint for reading a resource.
+     */
+    public static final String READ_RESOURCE_ENDPOINT = BASE_DIRECT_CONST + "readResourceEndpoint";
 
     // Route Ids
 
@@ -84,9 +89,14 @@ public class UphillChallengeConstants {
     public static final String SEARCH_PATIENT_RESOURCE_ROUTE = "searchPatientResourceRoute";
 
     /**
-     * The read patient resource route identification.
+     * The search resource route identification.
      */
-    public static final String READ_PATIENT_RESOURCE_ROUTE = "readPatientResourceRoute";
+    public static final String SEARCH_RESOURCE_ROUTE = "searchResourceRoute";
+
+    /**
+     * The read resource route identification.
+     */
+    public static final String READ_RESOURCE_ROUTE = "readResourceRoute";
 
     /**
      * The validate encounter resource route identification.
@@ -105,12 +115,26 @@ public class UphillChallengeConstants {
      */
     public static final String RESPONSE_PROPERTY = BASE_PROPERTY + "response";
 
-    // Constants
+
+    // Headers
 
     /**
-     * A param definition: id
+     * A header of the exchange: id
      */
-    public static final String ID_CONST = "id";
+    public static final String ID_HEADER = "id";
+
+    /**
+     * A header of the exchange: resourceType
+     */
+    public static final String RESOURCE_TYPE_HEADER = "resourceType";
+
+    /**
+     * A header of the exchange: identifierSystem
+     */
+    public static final String IDENTIFIER_SYSTEM_HEADER = "identifierSystem";
+
+
+    // Constants
 
     /**
      * A param definition: identifierValue
@@ -121,6 +145,11 @@ public class UphillChallengeConstants {
      * The media type fhir+json
      */
     public static final String MEDIA_TYPE_FHIR_JSON_CONST = "application/fhir+json";
+
+    /**
+     * A constant identifying the splitReferenceId method name.
+     */
+    public static final String SPLIT_RESOURCE_ID_METHOD_NAME_CONST = "splitReferenceId";
 
     /**
      * The server url constant for FHIR operations.
