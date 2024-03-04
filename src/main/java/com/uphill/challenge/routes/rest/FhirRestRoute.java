@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import static com.uphill.challenge.constants.UphillChallengeConstants.BASE_REST_ENDPOINT;
-import static com.uphill.challenge.constants.UphillChallengeConstants.VALIDATE_ENCOUNTER_RESOURCE_ENDPOINT;
+import static com.uphill.challenge.constants.UphillChallengeConstants.MESSAGE_HEADER_ORCHESTRATION_ENDPOINT;
 import static com.uphill.challenge.constants.UphillChallengeConstants.MEDIA_TYPE_FHIR_JSON_CONST;
 import static com.uphill.challenge.constants.UphillChallengeConstants.MESSAGE_REST_ENDPOINT;
 import static com.uphill.challenge.constants.UphillChallengeConstants.POST_FHIR_MESSAGES_ROUTE;
@@ -54,7 +54,7 @@ public class FhirRestRoute extends RouteBuilder {
                 .consumes(MEDIA_TYPE_FHIR_JSON_CONST)
                 .produces(MediaType.APPLICATION_JSON_VALUE)
                 .outType(ResponseDTO.class)
-                .responseMessage("200", "Valid Encounter Resource").type(IBaseResource.class) //.type(MessageHeader.class) -> with conflicts on generating openAPI
+                .responseMessage("200", "Valid Encounter Resource").type(IBaseResource.class) //.type(Bundle.class) -> with conflicts on generating openAPI
                 .responseMessage("401", "Unauthorized")
                 .responseMessage("404", "Resource Not Found")
                 .responseMessage("500", "Black magic")
@@ -62,7 +62,8 @@ public class FhirRestRoute extends RouteBuilder {
                     .name("body").type(RestParamType.body).description("Bundle Resource (Generic representation)")
                 .endParam()
                 .routeId(POST_FHIR_MESSAGES_ROUTE)
-                .to(VALIDATE_ENCOUNTER_RESOURCE_ENDPOINT);
+                .to(MESSAGE_HEADER_ORCHESTRATION_ENDPOINT);
     }
+
 
 }

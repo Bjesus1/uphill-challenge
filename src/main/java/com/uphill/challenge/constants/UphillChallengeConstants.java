@@ -37,9 +37,25 @@ public class UphillChallengeConstants {
     public static final String PATIENT_REST_ENDPOINT = "/patient";
 
     /**
-     * Internal endpoint for the validate encounter resource.
+     * Internal endpoint to validate an encounter resource.
      */
     public static final String VALIDATE_ENCOUNTER_RESOURCE_ENDPOINT = BASE_DIRECT_CONST + "validateEncounterResourceEndpoint";
+
+
+    /**
+     * Internal endpoint to validate a patient resource.
+     */
+    public static final String VALIDATE_PATIENT_RESOURCE_ENDPOINT = BASE_DIRECT_CONST + "validatePatientResourceEndpoint";
+
+    /**
+     * Internal endpoint to validate the received message.
+     */
+    public static final String CHECK_RECEIVED_MESSAGE_ENDPOINT = BASE_DIRECT_CONST + "checkReceivedMessageEndpoint";
+
+    /**
+     * Internal endpoint to the received message.
+     */
+    public static final String MESSAGE_HEADER_ORCHESTRATION_ENDPOINT = BASE_DIRECT_CONST + "messageHeaderOrchestratorEndpoint";
 
     /**
      * Internal endpoint for the search encounter resource.
@@ -101,7 +117,23 @@ public class UphillChallengeConstants {
     /**
      * The validate encounter resource route identification.
      */
-    public static final String VALIDATE_ENCOUNTER_RESOURCE_ROUTE = BASE_DIRECT_CONST + "validateEncounterResourceRoute";
+    public static final String VALIDATE_ENCOUNTER_RESOURCE_ROUTE = "validateEncounterResourceRoute";
+
+    /**
+     * The validate patient resource route identification.
+     */
+    public static final String VALIDATE_PATIENT_RESOURCE_ROUTE = "validatePatientResourceRoute";
+
+
+    /**
+     * The check received message route identification.
+     */
+    public static final String CHECK_RECEIVED_MESSAGE_ROUTE = "checkReceivedMessageRoute";
+
+    /**
+     * The message header orchestration route.
+     */
+    public static final String MESSAGE_HEADER_ORCHESTRATION_ROUTE = "messageHeaderOrchestrationRoute";
 
     // Properties
 
@@ -115,6 +147,10 @@ public class UphillChallengeConstants {
      */
     public static final String RESPONSE_PROPERTY = BASE_PROPERTY + "response";
 
+    /**
+     * A property for an error flag
+     */
+    public static final String ERROR_FLAG_PROPERTY = BASE_PROPERTY + "errorFlag";
 
     // Headers
 

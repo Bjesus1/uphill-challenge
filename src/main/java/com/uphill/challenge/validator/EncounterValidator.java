@@ -1,9 +1,11 @@
 package com.uphill.challenge.validator;
 
+import com.uphill.challenge.dto.EResourceType;
 import com.uphill.challenge.dto.EStatus;
 import com.uphill.challenge.dto.ResponseDTO;
 import org.apache.camel.Body;
 import org.apache.camel.Handler;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Encounter;
 import org.springframework.stereotype.Component;
@@ -80,6 +82,10 @@ public class EncounterValidator extends CommonValidator {
         }
 
         return containsServiceType;
+    }
+
+    protected boolean isEncounterType(String resourceType) {
+        return !StringUtils.isEmpty(resourceType) && resourceType.equals(EResourceType.ENCOUNTER.getName());
     }
 
 }

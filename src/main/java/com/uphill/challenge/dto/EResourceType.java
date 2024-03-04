@@ -5,6 +5,8 @@ package com.uphill.challenge.dto;
  */
 public enum EResourceType {
 
+    BUNDLE("Bundle"),
+    MESSAGE_HEADER("MessageHeader"),
     ENCOUNTER("Encounter"),
     PATIENT("Patient");
 
