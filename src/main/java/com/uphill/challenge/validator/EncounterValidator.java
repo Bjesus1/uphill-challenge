@@ -84,8 +84,4 @@ public class EncounterValidator extends CommonValidator {
         return containsServiceType;
     }
 
-    protected boolean isEncounterType(String resourceType) {
-        return !StringUtils.isEmpty(resourceType) && resourceType.equals(EResourceType.ENCOUNTER.getName());
-    }
-
 }
