@@ -24,17 +24,17 @@ public class UphillChallengeConstants {
     /**
      * Rest endpoint to be use on message validation.
      */
-    public static final String MESSAGE_REST_ENDPOINT = "/messageHeader";
+    public static final String MESSAGE_REST_ENDPOINT = "/MessageHeader";
 
     /**
      * Rest endpoint to be use on encounter resources.
      */
-    public static final String ENCOUNTER_REST_ENDPOINT = "/encounter";
+    public static final String ENCOUNTER_REST_ENDPOINT = "/Encounter";
 
     /**
      * Rest endpoint to be use on patient resources.
      */
-    public static final String PATIENT_REST_ENDPOINT = "/patient";
+    public static final String PATIENT_REST_ENDPOINT = "/Patient";
 
     /**
      * Internal endpoint to validate an encounter resource.
